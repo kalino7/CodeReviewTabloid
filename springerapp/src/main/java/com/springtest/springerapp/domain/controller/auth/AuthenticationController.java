@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 
 @RestController
-@RequestMapping("")
+@RequestMapping(path="/api/connect")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
@@ -26,7 +26,7 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticateRequest request) {
-        return ResponseEntity.ok(authService.authenticate());
+        return ResponseEntity.ok(authService.authenticate(request));
     }
     
 
