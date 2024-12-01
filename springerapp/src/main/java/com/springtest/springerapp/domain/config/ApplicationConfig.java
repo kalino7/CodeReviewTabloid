@@ -23,6 +23,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
+        // lamda fxn to replace loadUserByUsername method
         return username -> userRepository.findByUsername(username)
         .orElseThrow(
             () -> new UsernameNotFoundException("username not found")

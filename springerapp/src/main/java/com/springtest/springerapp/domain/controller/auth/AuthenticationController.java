@@ -1,6 +1,7 @@
 package com.springtest.springerapp.domain.controller.auth;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import com.springtest.springerapp.domain.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 
 
+
 @RestController
 @RequestMapping(path="/api/connect")
 @RequiredArgsConstructor
@@ -18,6 +20,11 @@ public class AuthenticationController {
 
     private final AuthenticationService authService;
 
+    @GetMapping("/register")
+    public String getMethodName() {
+        return "Login Here";
+    }
+    
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
@@ -28,6 +35,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticateRequest request) {
         return ResponseEntity.ok(authService.authenticate(request));
     }
+    
     
 
 }
