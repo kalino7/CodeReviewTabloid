@@ -32,13 +32,10 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticateRequest request){
         //verify user authentication
         //throws error if none found
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
-
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
+        authenticationManager.authenticate(authToken);
         // get user and then generate token
         var verifiedUser = userRepository.findByUsername(request.getUsername()).orElseThrow();
-
         return actualResponse(verifiedUser);
     }
 

@@ -18,3 +18,8 @@ security:
     jwt:
         encryption-key: "1b0b7a4c6e8d1a6b8b4f5e4c2d3a1f4e3a7b6c5d8e1f2a0b3e4c5d6a7b8e9f0"
         
+logging:
+  level:
+    '[org.hibernate.sql]': debug
+    '[org.springframework.web]': debug
+    root: info
