@@ -1,40 +1,13 @@
 import './App.css';
 import React, { useState } from "react";
 
-function App() {
-
+function RegForm()
+{
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState("");
-
-    const loginReq = async (event) => {
-        event.preventDefault();
-        const logDetail = {username, password};
-        const contentHeader = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            method : "POST",
-            body : JSON.stringify(logDetail)
-        }
-        try {
-            const request = await fetch("http://localhost:8081/api/connect/authenticate", contentHeader);
-            if(request.ok)
-            {
-                const response = await request.json();
-                setToken(response.token);
-
-                console.log(token);
-                
-            }
-        } catch (error) {
-         console.log(error);
-            
-        }
-    }
 
     const regReq = async (e) => {
         e.preventDefault();
@@ -62,33 +35,8 @@ function App() {
 
     }
 
-  return (
-    <div className="App">
-      <section>
-      <form onSubmit={loginReq}>
-            <div>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            <button type="submit">Login</button>
-        </form>
-      </section>
-      <br/>
-      <hr/>
-      <section>
-      <form onSubmit={regReq}>
+    return(
+        <form onSubmit={regReq}>
             <div>
                 <label>Firstname:</label>
                 <input
@@ -131,9 +79,74 @@ function App() {
             </div>
             <button type="submit">Login</button>
         </form>
-      </section>
-    </div>
-  );
+    );
 }
+
+function LoginForm()
+{
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [token, setToken] = useState("");
+
+    const loginReq = async (event) => {
+        event.preventDefault();
+        const logDetail = {username, password};
+        const contentHeader = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method : "POST",
+            body : JSON.stringify(logDetail)
+        }
+        try {
+            const request = await fetch("http://localhost:8081/api/connect/authenticate", contentHeader);
+            if(request.ok)
+            {
+                const response = await request.json();
+                setToken(response.token);
+
+                console.log(token);
+                
+            }
+        } catch (error) {
+         console.log(error);
+            
+        }
+    }
+
+    return(
+        <form onSubmit={loginReq}>
+        <div>
+            <label>Username:</label>
+            <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+            />
+        </div>
+        <div>
+            <label>Password:</label>
+            <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    );
+}
+
+function App() {
+
+    return (
+      <div className="App">
+
+        <RegForm />
+        <hr/>
+        <LoginForm />
+      </div>
+    );
+  }
 
 export default App;
