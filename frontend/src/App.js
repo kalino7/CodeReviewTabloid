@@ -1,5 +1,11 @@
 import './App.css';
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from './util/tokenState';
+
+
+function Button({sticker}){
+    return <button type="submit">{sticker}</button>;
+}
 
 function RegForm()
 {
@@ -77,7 +83,7 @@ function RegForm()
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
-            <button type="submit">Login</button>
+            <Button sticker="Register" />
         </form>
     );
 }
@@ -86,7 +92,8 @@ function LoginForm()
 {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState("");
+    const key = "jwtToken";
+    const [token, setToken] = useLocalStorage("",key);
 
     const loginReq = async (event) => {
         event.preventDefault();
@@ -99,20 +106,22 @@ function LoginForm()
             body : JSON.stringify(logDetail)
         }
         try {
-            const request = await fetch("http://localhost:8081/api/connect/authenticate", contentHeader);
-            if(request.ok)
-            {
-                const response = await request.json();
-                setToken(response.token);
 
-                console.log(token);
-                
+            if(!token){
+                const request = await fetch("http://localhost:8081/api/connect/authenticate", contentHeader);
+                if(request.ok)
+                {
+                    const response = await request.json();
+                    setToken(response.token);
+                    console.log(token);                  
+                }
             }
         } catch (error) {
          console.log(error);
             
         }
     }
+
 
     return(
         <form onSubmit={loginReq}>
@@ -132,7 +141,7 @@ function LoginForm()
                 onChange={(e) => setPassword(e.target.value)}
             />
         </div>
-        <button type="submit">Login</button>
+        <Button sticker="Login" />
     </form>
     );
 }
@@ -142,9 +151,16 @@ function App() {
     return (
       <div className="App">
 
-        <RegForm />
-        <hr/>
-        <LoginForm />
+        <div className="form-container">
+            <h3>Register User</h3>
+            <RegForm/>
+        </div>
+        
+        <div className="form-container">
+            <h3>Login User</h3>
+            <LoginForm />
+        </div>
+        
       </div>
     );
   }
