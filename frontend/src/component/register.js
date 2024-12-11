@@ -11,30 +11,33 @@ function RegisterForm(){
 
     const regReq = async (e) => {
         e.preventDefault();
-
-        const logDetail = {firstName, lastName, email, username, password};
-        const contentHeader = {
+    
+        const logDetail = { firstName, lastName, email, username, password };
+        const requestOptions = {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            method : "POST",
-            body : JSON.stringify(logDetail)
-        }
-
+            body: JSON.stringify(logDetail),
+        };
+    
         try {
-            const send = await fetch("http://localhost:8081/api/connect/register", contentHeader);
-            if(send.ok)
-            {
-                const resp = await send.json();
-                console.log(resp.token);
-                alert(`${username}: registered`);
+            const response = await fetch("http://localhost:8081/api/connect/register", requestOptions);
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Request failed with status ${response.status}`);
             }
+    
+            const data = await response.json();
+            console.log(data.token);
+            alert(`${username}: registered successfully!`);
         } catch (error) {
-            console.log(error);
-            alert("Unexpected Error Occured!");
+            console.error("Error during registration:", error);
+            alert(`Error: ${error.message}`);
         }
-
-    }
+    };
+    
 
     return(
         <div className="form-container">

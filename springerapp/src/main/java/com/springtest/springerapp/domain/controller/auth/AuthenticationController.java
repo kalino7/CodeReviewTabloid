@@ -10,8 +10,6 @@ import com.springtest.springerapp.domain.service.AuthenticationService;
 
 import lombok.RequiredArgsConstructor;
 
-
-
 @RestController
 @RequestMapping(path="/api/connect")
 @RequiredArgsConstructor

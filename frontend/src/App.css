@@ -13,4 +13,7 @@ a{
 a.active {
     color: red;
 }
-  
+
+.btn{
+    margin: 2rem;
+}
