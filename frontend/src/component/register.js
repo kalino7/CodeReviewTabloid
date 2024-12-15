@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Button from "./button";
+import { requestHeader } from "../util/header";
 
 function RegisterForm(){
 
@@ -13,13 +14,7 @@ function RegisterForm(){
         e.preventDefault();
     
         const logDetail = { firstName, lastName, email, username, password };
-        const requestOptions = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(logDetail),
-        };
+        const requestOptions = requestHeader("POST", null, logDetail);
     
         try {
             const response = await fetch("http://localhost:8081/api/connect/register", requestOptions);
@@ -30,8 +25,11 @@ function RegisterForm(){
             }
     
             const data = await response.json();
-            console.log(data.token);
-            alert(`${username}: registered successfully!`);
+            if(data)
+            {
+                alert(`${username}: registered successfully!`);
+                window.location.href = "/login";
+            }
         } catch (error) {
             console.error("Error during registration:", error);
             alert(`Error: ${error.message}`);

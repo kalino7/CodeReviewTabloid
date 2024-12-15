@@ -1,5 +1,8 @@
 package com.springtest.springerapp.domain.service;
 
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 
 import com.springtest.springerapp.domain.assignment.Assignment;
@@ -19,6 +22,15 @@ public class AssignmentService {
         assignment.setStatus("open: submitted ");
         assignment.setUser(user);
         return assignmentRepository.save(assignment);
+    }
+
+    public Set<Assignment> getAll(User user) {
+        return assignmentRepository.findByUser(user);
+    }
+
+    public Optional<Assignment> getRecordById(Long assingmentId, User user) {
+        
+        return assignmentRepository.findByIdAndUser(assingmentId, user);
     }
 
 }

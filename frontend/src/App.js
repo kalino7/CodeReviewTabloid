@@ -5,7 +5,7 @@ import LoginForm from './component/login';
 import Dashboard from './component/dashboard';
 import ProtectedRoute from './protectedRoute/protectedRoute';
 import Nav from './component/nav';
-import Assignment from './component/assingment';
+import GetAssingmentByID from './component/assingmentID';
 
 
 function App() {
@@ -21,9 +21,9 @@ function App() {
                 </ProtectedRoute>
                 } 
             />
-            <Route path="assignments" element={
+            <Route path="assignment/:id" element={
                 <ProtectedRoute>
-                    <Assignment />
+                    <GetAssingmentByID /> 
                 </ProtectedRoute>
                 } 
             />

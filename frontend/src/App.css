@@ -17,3 +17,9 @@ a.active {
 .btn{
     margin: 2rem;
 }
+
+.assingmentList{
+    display: block;
+    margin: 1rem;
+    padding: 5px;
+}

@@ -1,18 +1,13 @@
 import React from 'react';
 import { useLocalStorage } from '../util/tokenState';
+import { requestHeader } from '../util/header';
 
 const Assignment = () => {
 
     const [token, setToken] = useLocalStorage("", "jwtToken");
 
     const createAssingment = async () => {
-        const headInfo = {
-            headers: {
-                "Content-Type": "Application/json",
-                Authorization:  `Bearer ${token}`
-            },
-            method: "POST"
-        }
+        const headInfo = requestHeader("POST", token);
         
         try {
             const response = await fetch("http://localhost:8081/api/assignments", headInfo);

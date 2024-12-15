@@ -1,23 +1,19 @@
 import { useState } from "react";
 import Button from "./button";
 import { useLocalStorage } from "../util/tokenState";
+import { requestHeader } from "../util/header";
 
 const LoginForm = ()=>{
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const key = "jwtToken";
-    const [token, setToken] = useLocalStorage("",key);
+    const [token, setToken] = useLocalStorage(null,key);
 
     const loginReq = async (event) => {
         event.preventDefault();
         const logDetail = {username, password};
-        const contentHeader = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            method : "POST",
-            body : JSON.stringify(logDetail)
-        }
+        const contentHeader = requestHeader("POST",token,logDetail);
+        
         try {
 
             if(!token){
@@ -26,8 +22,8 @@ const LoginForm = ()=>{
                 {
                     const response = await request.json();
                     setToken(response.token);
-                    console.log(token);
-                    alert(`${username}: successfully signed in`);                
+                    alert(`${username}: successfully signed in`);    
+                    window.location.href="/dashboard";            
                 }
             }
             else{
