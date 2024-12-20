@@ -8,6 +8,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +18,6 @@ import com.springtest.springerapp.domain.service.AssignmentService;
 import com.springtest.springerapp.domain.user.User;
 
 import lombok.RequiredArgsConstructor;
-
-
-
 
 @RestController
 @RequiredArgsConstructor
@@ -45,5 +44,10 @@ public class AssignmentController {
         return ResponseEntity.ok(assingmentOpt.orElse(new Assignment()));
     }
     
+    @PutMapping("/{assignmentId}")
+    public ResponseEntity<?> updAssignmentRecord(@PathVariable Long assignmentId, @RequestBody Assignment assignment , @AuthenticationPrincipal User user) {
+        Assignment updAssingment = assignmentService.updateRecord(assignment);
+        return ResponseEntity.ok(updAssingment);
+    }
 
 }

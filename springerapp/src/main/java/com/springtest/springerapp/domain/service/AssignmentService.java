@@ -19,7 +19,7 @@ public class AssignmentService {
 
     public Assignment create(User user) {
         Assignment assignment = new Assignment();
-        assignment.setStatus("open: submitted ");
+        assignment.setStatus("open");
         assignment.setUser(user);
         return assignmentRepository.save(assignment);
     }
@@ -31,6 +31,10 @@ public class AssignmentService {
     public Optional<Assignment> getRecordById(Long assingmentId, User user) {
         
         return assignmentRepository.findByIdAndUser(assingmentId, user);
+    }
+
+    public Assignment updateRecord(Assignment assignment) {
+        return assignmentRepository.save(assignment);
     }
 
 }
