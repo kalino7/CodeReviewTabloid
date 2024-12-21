@@ -1,5 +1,7 @@
-const Button = ({sticker})=>{
-    return <button type="submit">{sticker}</button>;
+import Button from 'react-bootstrap/Button';
+
+const CustomizeButton = ({sticker})=>{
+    return <Button as="input" type="submit" value={sticker} />
 }
 
-export default Button;
+export default CustomizeButton;

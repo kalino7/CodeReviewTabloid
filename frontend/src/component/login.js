@@ -1,7 +1,8 @@
 import { useState } from "react";
-import Button from "./button";
+import CustomizeButton from "./button";
 import { useLocalStorage } from "../util/tokenState";
 import { requestHeader } from "../util/header";
+import {Container, Row, Col, Form} from 'react-bootstrap';
 
 const LoginForm = ()=>{
     const [username, setUsername] = useState("");
@@ -37,28 +38,51 @@ const LoginForm = ()=>{
     }
 
     return(
-        <div className="form-container">
-            <h3>Login User</h3>
-            <form onSubmit={loginReq}>
-            <div>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            <Button sticker="Login" />
-            </form>
-        </div>
+
+        <Container className="mt-4">
+            <Row className="justify-content-center align-items-center">
+                <Col md="8" lg="6">
+                    <h3>Bitte melden Sie sich an</h3>
+                </Col>
+            </Row>
+
+            <Form onSubmit={loginReq}>
+                <Row className="justify-content-center align-items-center">
+                    <Col md="8" lg="6">
+                        <Form.Group className="mb-3" controlId="formUsername">
+                            <Form.Label>Benutzername</Form.Label>
+                            <Form.Control type="text" placeholder="Benutzernamen eingeben"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <Form.Text className="text-muted">
+                        Die Benutzername ist immer einzigartig!
+                            </Form.Text>
+                        </Form.Group>
+                    </Col>
+                </Row>
+
+                <Row className="justify-content-center align-items-center">
+                    <Col md="8" lg="6">
+                        <Form.Group className="mb-3" controlId="formPassword">
+                            <Form.Label>Passwort</Form.Label>
+                            <Form.Control type="password" placeholder="Passwort eingeben" 
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
+
+                <Row className="justify-content-center align-items-center">
+                    <Col md="8" lg="6" className="d-flex flex-column flex-md-row gap-5 justify-content-md-between">           
+                        <CustomizeButton sticker="Anmelden" />
+                    </Col>
+                </Row>
+
+            </Form>
+            
+        </Container>
     );
 }
 

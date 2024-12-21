@@ -4,15 +4,16 @@ import RegisterForm from './component/register';
 import LoginForm from './component/login';
 import Dashboard from './component/dashboard';
 import ProtectedRoute from './protectedRoute/protectedRoute';
-import Nav from './component/nav';
+import MenuBar from './component/nav';
 import GetAssingmentByID from './component/assingmentID';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
 
     return (
       <div className="App">
-        <Nav />
+        <MenuBar />
 
         <Routes>
             <Route path="dashboard" element={
