@@ -3,6 +3,7 @@ import Assignment from './assingment';
 import { requestHeader } from '../util/header';
 import { useLocalStorage } from '../util/tokenState';
 import { Link } from 'react-router';
+import { Col, Container, Row } from 'react-bootstrap';
 
 const Dashboard = () => {
 
@@ -32,20 +33,23 @@ const Dashboard = () => {
     },[]);
 
     return (
-        <>
-            <div>
-                Welcome User!
-                <Assignment />
-            </div>
+        <Container className="mt-3">
+            <Row>
+                <Col>
+                    <Assignment />
+            
+                    { (assingments) && (
+                        assingments.map((result)=><div key={result.id} className='assingmentList'>
+                            <Link to={`/assignment/${result.id}`}>
+                                `Assignment: {result.id} _{result.status}`
+                            </Link>
+                        </div>) 
+                        )
+                    }
+                </Col>
+            </Row>
 
-            { (assingments) ? assingments.map((result)=><div key={result.id} className='assingmentList'>
-                    <Link to={`/assignment/${result.id}`}>
-                        `Assignment: {result.id} _{result.status}`
-                    </Link>
-                </div>) : ""
-            }
-
-        </>
+        </Container>
         
     );
 };

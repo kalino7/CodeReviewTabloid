@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocalStorage } from '../util/tokenState';
 import { requestHeader } from '../util/header';
+import Button from 'react-bootstrap/Button';
 
 const Assignment = () => {
 
@@ -26,7 +27,7 @@ const Assignment = () => {
     }
 
     return (
-        <button className="btn" onClick={()=>createAssingment()}> Create Assingment</button>
+        <Button variant="success" onClick={()=>createAssingment()} >Create Assignment</Button>
     );
 };
 

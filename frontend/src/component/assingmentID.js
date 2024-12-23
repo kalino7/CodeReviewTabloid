@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from '../util/tokenState';
 import { requestHeader } from '../util/header';
 import { useParams } from 'react-router';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 const GetAssingmentByID = () => {
     const [token, setToken] = useLocalStorage("", "jwtToken");
@@ -39,8 +40,10 @@ const GetAssingmentByID = () => {
             if(!request.ok){
                 throw new Error(response.message);
             }
-            alert(`deleted assingment ID: ${id}`);
-            window.location.href("/assignments");
+            alert(`deleted assignment ID: ${id}`);
+
+            
+            window.location.href = "/dashboard";
         } catch (error) {
             console.error("Error: ", error);
             alert(`Error: ${error.message}`);
@@ -62,41 +65,76 @@ const GetAssingmentByID = () => {
     }, []);
 
     return (
-        <div className="form-container">
-            {(record) ? (
-                <>
-                    <div> <label>Username: </label> {record.user.username}</div>
-                    <div> <label>Assignment: </label> {record.id}</div>
-                    <div> <label>Status: </label> {record.status}</div>
-                </>
-            )
-            : ""}
 
-            <div>
-                <label>GithubURL:</label>
-                <input 
-                    type="url" 
-                    name="githuburl" 
-                    placeholder='github url'
-                    onChange={(e)=>updateRecord("githuburl", e.target.value)}
-                    value={( record && record.githuburl)?record.githuburl:""}
-                />
-            </div>
+        <Container className="mt-4">
 
-            <div>
-                <label>Branch:</label>
-                <input 
-                    type="text" 
-                    name="branch" 
-                    placeholder='github branch'
-                    onChange={(e)=>updateRecord("branch", e.target.value)}
-                    value={(record && record.branch)?record.branch:""}
-                />
-            </div>
+            <Form>
+                <fieldset disabled>
+                    {(record) && (
+                       <>
+                        <Row className="justify-content-center align-items-center">
+                            <Col md="8" lg="6">
+                                <Form.Group className="mb-3" controlId="Username">
+                                    <Form.Label>Username</Form.Label>
+                                    <Form.Control type="text" value={record.user.username}/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className="justify-content-center align-items-center">
+                            <Col md="8" lg="6">
+                                <Form.Group className="mb-3" controlId="AssingmentID">
+                                    <Form.Label>AssignmentID: </Form.Label>
+                                    <Form.Control type="text" value={record.id}/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className="justify-content-center align-items-center">
+                            <Col md="8" lg="6">
+                                <Form.Group className="mb-3" controlId="status">
+                                    <Form.Label>Assignment Status</Form.Label>
+                                    <Form.Control type="text" value={record.status}/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                       </>
+                    )}
+                </fieldset>
+            </Form>
             
-            <button className='btn btn-update' onClick={handleUpdate}> Update </button>
-            <button className='btn btn-remove' onClick={handleRemove}> Remove </button>
-        </div>
+            
+            <Row className="justify-content-center align-items-center">
+                <Col md="8" lg="6">
+                    <Form.Group className="mb-3" controlId="formGithuburk">
+                        <Form.Label>GithubURL</Form.Label>
+                        <Form.Control type="url" placeholder="GithubURL eingeben"
+                        onChange={(e)=>updateRecord("githuburl", e.target.value)}
+                        value={( record && record.githuburl)?record.githuburl:""}
+                        />
+                    </Form.Group>
+                </Col>
+            </Row>
+
+            <Row className="justify-content-center align-items-center">
+                <Col md="8" lg="6">
+                    <Form.Group className="mb-3" controlId="formBranch">
+                        <Form.Label>Branch</Form.Label>
+                        <Form.Control type="text" placeholder='github branch'
+                        onChange={(e)=>updateRecord("branch", e.target.value)}
+                        value={(record && record.branch)?record.branch:""}
+                        />
+                    </Form.Group>
+                </Col>
+            </Row>
+
+            <Row className="justify-content-center align-items-center">
+                <Col md="8" lg="6" className="d-flex flex-column flex-md-row gap-5 justify-content-md-between">           
+                    <Button variant="primary" onClick={handleUpdate}> Update </Button>
+                    <Button variant="danger" onClick={handleRemove}> Remove </Button>        
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

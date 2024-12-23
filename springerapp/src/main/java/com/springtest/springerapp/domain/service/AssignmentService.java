@@ -37,4 +37,12 @@ public class AssignmentService {
         return assignmentRepository.save(assignment);
     }
 
+    public void remove(Long assignmentId, User user) {
+        boolean checkId = assignmentRepository.existsByIdAndUser(assignmentId, user);
+        if(!checkId){
+            throw new IllegalStateException("ID: "+assignmentId+" does not exist");
+        }
+        assignmentRepository.deleteById(assignmentId);
+    }
+
 }

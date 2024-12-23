@@ -4,7 +4,7 @@ import {Container, Nav, Navbar} from 'react-bootstrap';
 
 const MenuBar = () => {
     return (
-        <Navbar bg="primary" data-bs-theme="dark" fixed="top">
+        <Navbar bg="primary" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="#home">CODEREVIEW</Navbar.Brand>
           <Nav>

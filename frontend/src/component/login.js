@@ -2,13 +2,15 @@ import { useState } from "react";
 import CustomizeButton from "./button";
 import { useLocalStorage } from "../util/tokenState";
 import { requestHeader } from "../util/header";
-import {Container, Row, Col, Form} from 'react-bootstrap';
+import {Container, Row, Col, Form, Alert} from 'react-bootstrap';
 
 const LoginForm = ()=>{
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const key = "jwtToken";
     const [token, setToken] = useLocalStorage(null,key);
+    const [errors, setErrors] = useState("");
+    const [show, setShow] = useState(false);
 
     const loginReq = async (event) => {
         event.preventDefault();
@@ -19,21 +21,29 @@ const LoginForm = ()=>{
 
             if(!token){
                 const request = await fetch("http://localhost:8081/api/connect/authenticate", contentHeader);
-                if(request.ok)
-                {
-                    const response = await request.json();
-                    setToken(response.token);
-                    alert(`${username}: successfully signed in`);    
-                    window.location.href="/dashboard";            
+
+                if(request.status === 403){
+                    throw new Error("Unauthorized User!, Anmeldendaten sind Falsch");
                 }
+
+                if(request.status !== 200)
+                {
+                    throw new Error("Unexpected error occured")
+                }
+                
+                const response = await request.json();
+                setToken(response.token);
+                alert(`${username}: successfully signed in`);    
+                window.location.href="/dashboard";            
             }
             else{
-                alert(`Existing user: ${username} is still logged in`);
+                let errMsg = `Existing user: ${username} is still logged in`;
+                setErrors(errMsg);
+                setShow(true);
             }
         } catch (error) {
-         console.log(error);
-         alert("unexpected error occured!");
-            
+            setErrors(error.message);
+            setShow(true);
         }
     }
 
@@ -45,6 +55,18 @@ const LoginForm = ()=>{
                     <h3>Bitte melden Sie sich an</h3>
                 </Col>
             </Row>
+
+            {(show) && (
+                <Row className="justify-content-center align-items-center">
+                    <Col>
+                        <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                            <Alert.Heading>Error</Alert.Heading>
+                            <p>{errors}</p>
+                        </Alert>
+                    </Col>
+                </Row>
+                )
+            }
 
             <Form onSubmit={loginReq}>
                 <Row className="justify-content-center align-items-center">

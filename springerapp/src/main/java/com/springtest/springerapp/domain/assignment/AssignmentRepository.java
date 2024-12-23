@@ -11,4 +11,6 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     Set<Assignment> findByUser(User user);
 
     Optional<Assignment> findByIdAndUser(Long assingmentId, User user);
+
+    boolean existsByIdAndUser(Long assignmentId, User user);
 }
