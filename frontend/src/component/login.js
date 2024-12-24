@@ -15,32 +15,26 @@ const LoginForm = ()=>{
     const loginReq = async (event) => {
         event.preventDefault();
         const logDetail = {username, password};
-        const contentHeader = requestHeader("POST",token,logDetail);
+        const contentHeader = requestHeader("POST",null,logDetail);
         
         try {
 
-            if(!token){
-                const request = await fetch("http://localhost:8081/api/connect/authenticate", contentHeader);
+            const request = await fetch("http://localhost:8081/api/connect/authenticate", contentHeader);
 
-                if(request.status === 403){
-                    throw new Error("Unauthorized User!, Anmeldendaten sind Falsch");
-                }
+            if(request.status === 403){
+                throw new Error("Unauthorized User!, Anmeldendaten sind Falsch");
+            }
 
-                if(request.status !== 200)
-                {
-                    throw new Error("Unexpected error occured")
-                }
-                
-                const response = await request.json();
-                setToken(response.token);
-                alert(`${username}: successfully signed in`);    
-                window.location.href="/dashboard";            
+            if(request.status !== 200)
+            {
+                throw new Error("Unexpected error occured")
             }
-            else{
-                let errMsg = `Existing user: ${username} is still logged in`;
-                setErrors(errMsg);
-                setShow(true);
-            }
+            
+            const response = await request.json();
+            setToken(response.token);
+            alert(`${username}: successfully signed in`);    
+            window.location.href="/dashboard";            
+        
         } catch (error) {
             setErrors(error.message);
             setShow(true);
