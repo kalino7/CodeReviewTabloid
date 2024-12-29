@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Assignment from './assingment';
 import { requestHeader } from '../util/header';
 import { useLocalStorage } from '../util/tokenState';
-import { Link } from 'react-router';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Card, Button } from 'react-bootstrap';
 
 const Dashboard = () => {
 
@@ -37,15 +36,22 @@ const Dashboard = () => {
             <Row>
                 <Col>
                     <Assignment />
-            
-                    { (assingments) && (
-                        assingments.map((result)=><div key={result.id} className='assingmentList'>
-                            <Link to={`/assignment/${result.id}`}>
-                                `Assignment: {result.id} _{result.status}`
-                            </Link>
-                        </div>) 
-                        )
-                    }
+                    <div className='mycustom-grid my-3'>
+                        { (assingments) && (
+                            assingments.map((result)=>
+                                <Card key={result.id} style={{ width: '18rem' }}>
+                                    <Card.Body className='d-flex flex-column justify-content-around'>
+                                        <Card.Title>Assignment: {result.id}</Card.Title>
+                                        <Card.Subtitle className="mb-2 text-muted">{result.status}</Card.Subtitle>
+                                        <Card.Text>Github URL: {result.githuburl}</Card.Text>
+                                        <Card.Text>Branch: {result.branch}</Card.Text>
+                                        <Card.Link as={Button} variant="secondary" href={`/assignment/${result.id}`} className='stretched-link'>Edit</Card.Link>
+                                    </Card.Body>
+                                </Card>
+                            ) 
+                            )
+                        }
+                    </div>
                 </Col>
             </Row>
 
